@@ -2,29 +2,9 @@
 
 [![sampctl](https://img.shields.io/badge/sampctl-lobby--system-2f2f2f.svg?style=for-the-badge)](https://github.com/Aiuraa/lobby-system)
 
-<!--
-Short description of your library, why it's useful, some examples, pictures or
-videos. Link to your forum release thread too.
+Vanilla lobby system with core functionality, and it's ready to use too!
 
-Remember: You can use "forumfmt" to convert this readme to forum BBCode!
-
-What the sections below should be used for:
-
-`## Installation`: Leave this section un-edited unless you have some specific
-additional installation procedure.
-
-`## Testing`: Whether your library is tested with a simple `main()` and `print`,
-unit-tested, or demonstrated via prompting the player to connect, you should
-include some basic information for users to try out your code in some way.
-
-And finally, maintaining your version number`:
-
-* Follow [Semantic Versioning](https://semver.org/)
-* When you release a new version, update `VERSION` and `git tag` it
-* Versioning is important for sampctl to use the version control features
-
-Happy Pawning!
--->
+**NOTE**: this is only the baremetal functions, i didn't add any teleportations yet. Take this repo for you to learn how to make lobby system.
 
 ## Installation
 
@@ -37,17 +17,36 @@ sampctl package install Aiuraa/lobby-system
 Include in your code and begin using the library:
 
 ```pawn
-#include <lobby-system>
+#include <lobby_system>
 ```
 
-## Usage
+## Function Lists
 
-<!--
-Write your code documentation or examples here. If your library is documented in
-the source code, direct users there. If not, list your API and describe it well
-in this section. If your library is passive and has no API, simply omit this
-section.
--->
+```pawn
+// Checks if lobby is valid
+forward Lobby_IsValid(Lobby:lobby);
+
+// Counts how many player have joined the lobby
+forward Lobby_Count(Lobby:lobby);
+
+// Get all players in current lobby, stored to `playerData` array
+forward Lobby_GetPlayers(Lobby:lobby, playerData[MAX_PLAYERS]);
+
+// Put player in lobby slot when player doesn't join to any lobbies (will call `OnPlayerJoinedLobby(playerid, Lobby:lobby)`)
+forward Lobby_Join(playerid, Lobby:lobby);
+
+// Leave player from current lobby
+forward Lobby_Leave(playerid);
+
+// Switch from one lobby to another lobby
+forward Lobby_Switch(playerid, Lobby:lobby);
+
+// Same as Lobby_Switch, but it will join next lobby
+forward Lobby_JoinNext(playerid);
+
+// Same as Lobby_Switch, but it will join previous lobby
+forward Lobby_JoinPrevious(playerid);
+````
 
 ## Testing
 
