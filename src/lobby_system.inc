@@ -13,6 +13,10 @@
 	#define MAX_LOBBY_SLOT 		30
 #endif
 
+#if defined DONT_USE_LOBBY_TAG
+	#define Lobby:
+#endif
+
 #define INVALID_LOBBY_ID 		Lobby:-1
 
 #define ERROR_INVALID_LOBBY 	-1
@@ -21,16 +25,19 @@
 #define ERROR_LOBBY_FULL 		-4
 
 static 
-	Lobby_g_sLobbyRooms[Lobby:MAX_LOBBY_ROOM][MAX_LOBBY_SLOT],
+	Lobby_g_sLobbyRooms[Lobby:MAX_LOBBY_ROOM][MAX_LOBBY_SLOT] = {{INVALID_PLAYER_ID, ...}, ...},
 	Lobby_g_sLobbySlots[Lobby:MAX_LOBBY_ROOM];
 
 static
-	Lobby:Lobby_g_sPlayerlobby[MAX_PLAYERS];
+	Lobby:Lobby_g_sPlayerlobby[MAX_PLAYERS] = {Lobby:INVALID_LOBBY_ID, ...};
+
+forward OnPlayerJoinLobby(playerid, Lobby:lobby);
+forward OnPlayerLeaveLobby(playerid, Lobby:lobby);
 
 /* Lobby Input checks */
 stock bool:Lobby_IsValid(Lobby:lobby)
 {
-	return (Lobby:0 <= lobby < Lobby:MAX_LOBBY);
+	return (Lobby:0 <= lobby < Lobby:MAX_LOBBY_ROOM);
 }
 
 /* Lobby Data */
@@ -51,7 +58,7 @@ stock Lobby_GetPlayers(Lobby:lobby, playerData[MAX_PLAYERS])
 		return ERROR_INVALID_LOBBY;
 	}
 
-	playerData = Lobby_g_sLobbyRooms;
+	playerData = Lobby_g_sLobbyRooms[lobby];
 	return 1;
 }
 
@@ -87,6 +94,7 @@ stock Lobby_Join(playerid, Lobby:lobby)
 	Lobby_g_sLobbySlots[lobby] ++;
 
 	Lobby_g_sPlayerlobby[playerid] = lobby;
+	CallLocalFunction(#OnPlayerJoinLobby, "ii", playerid, _:lobby);
 	return 1;
 }
 
@@ -112,6 +120,7 @@ stock Lobby_Leave(playerid)
 				Lobby_g_sLobbySlots[i] --;
 
 				Lobby_g_sPlayerlobby[playerid] = INVALID_LOBBY_ID;
+				CallLocalFunction(#OnPlayerLeaveLobby, "ii", playerid, _:i);
 				return 1;
 
 			}
@@ -168,6 +177,7 @@ public OnPlayerDisconnect(playerid, reason)
 					Lobby_g_sLobbySlots[i] --;
 
 					Lobby_g_sPlayerlobby[playerid] = INVALID_LOBBY_ID;
+					CallLocalFunction(#OnPlayerLeaveLobby, "ii", playerid, _:i);
 
 					#if defined Lobby_OnPlayerDisconnect
 						return Lobby_OnPlayerDisconnect(playerid, reason);
