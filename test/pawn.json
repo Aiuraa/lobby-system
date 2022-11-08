@@ -1,0 +1,15 @@
+{
+	"user": "Aiuraa",
+	"repo": "lobby-system",
+	"tag": "0.0.1",
+	"entry": "test.pwn",
+	"output": "gamemodes/test.amx",
+	"dependencies": [
+		"pawn-lang/samp-stdlib"
+	],
+	"build": {
+		"includes": [
+			"../src"
+		]
+	}
+}

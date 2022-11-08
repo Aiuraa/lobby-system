@@ -1,0 +1,9 @@
+{
+	"user": "Aiuraa",
+	"repo": "lobby-system",
+	"include_path": "src/lobby_system.inc"
+	"tag": "0.0.1",
+	"dependencies": [
+		"pawn-lang/samp-stdlib"
+	]
+}
