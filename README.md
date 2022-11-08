@@ -32,10 +32,10 @@ forward Lobby_Count(Lobby:lobby);
 // Get all players in current lobby, stored to `playerData` array
 forward Lobby_GetPlayers(Lobby:lobby, playerData[MAX_PLAYERS]);
 
-// Put player in lobby slot when player doesn't join to any lobbies (will call `OnPlayerJoinedLobby(playerid, Lobby:lobby)`)
+// Put player in lobby slot when player doesn't join to any lobbies (will call `OnPlayerJoinLobby(playerid, Lobby:lobby)`)
 forward Lobby_Join(playerid, Lobby:lobby);
 
-// Leave player from current lobby
+// Leave player from current lobby (will call `OnPlayerLeaveLobby(playerid, Lobby:lobby)`)
 forward Lobby_Leave(playerid);
 
 // Switch from one lobby to another lobby
